@@ -1,0 +1,8 @@
+# Core (CPU; everything in experiments/mlp, experiments/burgers, experiments/diagnostics, tests)
+numpy>=1.24
+scipy>=1.10
+scikit-learn>=1.7   # MLPRegressor.fit(sample_weight=...) required; reported MLP numbers used 1.9.0
+matplotlib>=3.6
+
+# The FNO experiment (experiments/fno) also needs PyTorch; install it separately:
+# torch>=2.0

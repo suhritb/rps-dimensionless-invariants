@@ -1,0 +1,23 @@
+FNO COMPRESSIBLE SCALE SWEEP — 5 SEEDS
+Generated: 2026-07-20T19:40:17
+Device: Tesla T4 (Colab). Backbone: FNO1d (width=32, modes=16, depth=4).
+Same solver / ICs / L_pool / L_test / (Re,Ma) grid as run_compressible_lsweep.py.
+Naive cond = [log mu, log L, log c0]; Similarity cond = [log Re, log Ma].
+Loss = per-sample relative L2. Epochs=200, Adam lr=3e-4, batch=64.
+
+  k  Naive(mean)  Naive(std)   Sim(mean)   Sim(std)     Gap
+--------------------------------------------------------------
+  1       0.7450      0.0275      0.5522     0.0165   1.35x
+  2       0.3401      0.0378      0.3340     0.0267   1.02x
+  3       0.3577      0.0713      0.3880     0.0998   0.92x
+  5       0.2135      0.0306      0.2018     0.0377   1.06x
+
+Per-seed raw values (for full reproducibility):
+  k=1  naive=['0.7458', '0.7466', '0.7155', '0.7229', '0.7942']
+  k=1  sim  =['0.5291', '0.5805', '0.5475', '0.5503', '0.5536']
+  k=2  naive=['0.3124', '0.3584', '0.3285', '0.4039', '0.2972']
+  k=2  sim  =['0.3685', '0.3600', '0.2990', '0.3298', '0.3124']
+  k=3  naive=['0.4848', '0.3425', '0.3670', '0.3258', '0.2687']
+  k=3  sim  =['0.5701', '0.3100', '0.3280', '0.4210', '0.3112']
+  k=5  naive=['0.2178', '0.1959', '0.1854', '0.2711', '0.1975']
+  k=5  sim  =['0.1966', '0.1947', '0.1570', '0.2715', '0.1890']

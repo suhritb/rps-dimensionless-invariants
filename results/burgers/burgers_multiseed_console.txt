@@ -1,0 +1,82 @@
+# Console output of experiments/burgers/run_burgers_multiseed.py (Linux, scikit-learn 1.9.1).
+# The sanity pass reproduces the original single-seed run (results/burgers/sweep_numbers.txt) exactly;
+# the five-seed values match results/burgers/burgers_multiseed.txt. The 'published' comparison values printed
+# (10.2x/0.9x/0.8x) are rounded constants from an earlier script version; the script now uses 10.18/0.87/0.84.
+$ python experiments/burgers/run_burgers_multiseed.py
+========================================================================
+BURGERS MULTI-SEED SCALE SWEEP
+Re [15.0, 22.0, 30.0, 45.0, 65.0]  n_ic=60  N=64  ref_L=2.8
+L_pool [2.6, 2.9, 3.2, 2.3, 3.5, 2.0, 3.8]
+L_test [1.2, 1.6, 4.4, 5.2]  ks=[1, 2, 3, 5, 7]  seeds=[0, 1, 2, 3, 4]
+========================================================================
+
+--- SANITY CHECK: original config (rng=1234, random_state=0) ---
+    k=1: naive=0.3594  sim=0.0353  gap=10.18x
+    k=2: naive=0.0257  sim=0.0297  gap=0.87x
+    k=3: naive=0.0255  sim=0.0209  gap=1.22x
+    k=5: naive=0.0178  sim=0.0212  gap=0.84x
+    k=7: naive=0.0188  sim=0.0192  gap=0.98x
+
+  published vs this run:
+    k=1: 10.18x vs published 10.2x  ok
+    k=2: 0.87x vs published 0.9x  ok
+    k=5: 0.84x vs published 0.8x  ok
+  Original single-seed values reproduced.
+
+--- seed 0 ---
+    k=1: naive=0.3644  sim=0.0371  gap=9.82x
+    k=2: naive=0.0408  sim=0.0307  gap=1.33x
+    k=3: naive=0.0326  sim=0.0260  gap=1.25x
+    k=5: naive=0.0242  sim=0.0238  gap=1.02x
+    k=7: naive=0.0201  sim=0.0215  gap=0.94x
+
+--- seed 1 ---
+    k=1: naive=0.3568  sim=0.0360  gap=9.90x
+    k=2: naive=0.0278  sim=0.0354  gap=0.78x
+    k=3: naive=0.0259  sim=0.0232  gap=1.11x
+    k=5: naive=0.0237  sim=0.0265  gap=0.89x
+    k=7: naive=0.0171  sim=0.0174  gap=0.98x
+
+--- seed 2 ---
+    k=1: naive=0.3648  sim=0.0404  gap=9.03x
+    k=2: naive=0.0279  sim=0.0319  gap=0.87x
+    k=3: naive=0.0236  sim=0.0216  gap=1.09x
+    k=5: naive=0.0218  sim=0.0199  gap=1.10x
+    k=7: naive=0.0177  sim=0.0209  gap=0.85x
+
+--- seed 3 ---
+    k=1: naive=0.3662  sim=0.0322  gap=11.36x
+    k=2: naive=0.0302  sim=0.0227  gap=1.33x
+    k=3: naive=0.0213  sim=0.0232  gap=0.92x
+    k=5: naive=0.0245  sim=0.0200  gap=1.23x
+    k=7: naive=0.0176  sim=0.0170  gap=1.04x
+
+--- seed 4 ---
+    k=1: naive=0.3618  sim=0.0335  gap=10.79x
+    k=2: naive=0.0297  sim=0.0362  gap=0.82x
+    k=3: naive=0.0241  sim=0.0268  gap=0.90x
+    k=5: naive=0.0249  sim=0.0201  gap=1.24x
+    k=7: naive=0.0183  sim=0.0187  gap=0.98x
+
+========================================================================
+SUMMARY (mean +/- std of errors; gap = geometric mean of per-seed ratios)
+========================================================================
+   k               naive          similarity       gap
+  ------------------------------------------------------
+   1    0.3628 +/- 0.0033     0.0359 +/- 0.0029     10.15x
+   2    0.0313 +/- 0.0049     0.0314 +/- 0.0048      1.00x
+   3    0.0255 +/- 0.0038     0.0242 +/- 0.0019      1.05x
+   5    0.0238 +/- 0.0011     0.0221 +/- 0.0027      1.09x
+   7    0.0182 +/- 0.0010     0.0191 +/- 0.0018      0.95x
+  ------------------------------------------------------
+  pooled k>=2 geometric gap = 1.020x (n=20 seed-k pairs)
+  MDE at ~80% power        = 1.31x
+
+  per-seed gaps:
+    k=1: s0=9.82x  s1=9.90x  s2=9.03x  s3=11.36x  s4=10.79x
+    k=2: s0=1.33x  s1=0.78x  s2=0.87x  s3=1.33x  s4=0.82x
+    k=3: s0=1.25x  s1=1.11x  s2=1.09x  s3=0.92x  s4=0.90x
+    k=5: s0=1.02x  s1=0.89x  s2=1.10x  s3=1.23x  s4=1.24x
+    k=7: s0=0.94x  s1=0.98x  s2=0.85x  s3=1.04x  s4=0.98x
+
+Saved to results/burgers_multiseed.txt

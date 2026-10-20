@@ -1,0 +1,100 @@
+====================================================================
+FORCED-k=1 ARTIFACT DIAGNOSTIC
+Reconstructs the early-development run that produced a spurious
+similarity advantage before the IC generator was reverted.
+
+IC generator: forced-k=1 (local to this script; main pipeline
+              src/compressible_dataset.make_ic_velocity unchanged)
+MIN_K1_AMP   = 0.01
+Re range     : [50.0, 100.0, 200.0, 500.0, 1000.0]  (original range)
+Ma range     : [0.3, 0.5, 0.7]
+T_final      = 1.5
+n_ic         = 20  (RNG seed = 42)
+====================================================================
+Generating forced-k=1 ICs and pre-computing solutions ...
+    30/300 solves complete ...
+    60/300 solves complete ...
+    90/300 solves complete ...
+    120/300 solves complete ...
+    150/300 solves complete ...
+    180/300 solves complete ...
+    210/300 solves complete ...
+    240/300 solves complete ...
+    270/300 solves complete ...
+    300/300 solves complete ...
+    Done: 300 solves total.
+
+IC norms (forced-k=1): min=0.0557  max=0.4360  median=0.2128
+
+Test set: 600 samples
+Degenerate (||Y|| < 1e-3): 0/600 (reduced vs original ICs)
+
+Degenerate test samples per (Re, Ma):
+      Re     Ma   n_degen   n_total
+  ------------------------------------
+      50   0.30         0        40
+      50   0.50         0        40
+      50   0.70         0        40
+     100   0.30         0        40
+     100   0.50         0        40
+     100   0.70         0        40
+     200   0.30         0        40
+     200   0.50         0        40
+     200   0.70         0        40
+     500   0.30         0        40
+     500   0.50         0        40
+     500   0.70         0        40
+    1000   0.30         0        40
+    1000   0.50         0        40
+    1000   0.70         0        40
+
+====================================================================
+L-SCALE SWEEP — forced-k=1 ICs, no degenerate exclusion from metric
+(replicates the artifact: metric includes degenerate samples)
+====================================================================
+    k               L_train       naive    similarity       gap
+  ------------------------------------------------------------
+    1                 [0.8]      0.5304        0.1363      3.9x
+    2            [0.8, 1.2]      0.0752        0.0925      0.8x
+    3       [0.8, 1.2, 1.6]      0.0620        0.0757      0.8x
+    5  [0.8, 1.2, 1.6, 2.0, 2.4]      0.0455        0.0692      0.7x
+
+====================================================================
+PER-(Re, Ma) BREAKDOWN at k=1
+====================================================================
+      Re     Ma       naive    similarity       gap
+  ----------------------------------------------
+      50   0.30      0.7505        0.1369      5.5x
+      50   0.50      0.7058        0.1368      5.2x
+      50   0.70      0.7938        0.2009      4.0x
+     100   0.30      0.5487        0.1083      5.1x
+     100   0.50      0.5573        0.1303      4.3x
+     100   0.70      0.6202        0.1453      4.3x
+     200   0.30      0.5021        0.0952      5.3x
+     200   0.50      0.5244        0.1142      4.6x
+     200   0.70      0.5920        0.1206      4.9x
+     500   0.30      0.4095        0.0880      4.7x
+     500   0.50      0.3910        0.1421      2.8x
+     500   0.70      0.4288        0.1125      3.8x
+    1000   0.30      0.3622        0.1242      2.9x
+    1000   0.50      0.3791        0.2054      1.8x
+    1000   0.70      0.3910        0.1843      2.1x
+
+====================================================================
+SUMMARY
+====================================================================
+   k       naive    similarity       gap
+   1      0.5304        0.1363      3.9x
+   2      0.0752        0.0925      0.8x
+   3      0.0620        0.0757      0.8x
+   5      0.0455        0.0692      0.7x
+
+  Gap at k=1: 3.9x  (the artifact gap — original claim was ~6.1x)
+
+  Note: this is a reconstruction of the forced-k=1 run.
+  The exact IC sequence differs from the original (reverted) code
+  because the original modified make_ic_velocity was not saved.
+  The gap magnitude is indicative, not an exact replay.
+
+  
+====================================================================

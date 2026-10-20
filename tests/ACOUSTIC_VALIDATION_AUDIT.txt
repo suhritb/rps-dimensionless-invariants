@@ -1,0 +1,54 @@
+ACOUSTIC VALIDATION AUDIT — ORIGINAL FLAT-ERROR RESULT
+=======================================================
+
+Recorded during solver development, after compressible_solver.py was first written.
+
+Setup
+-----
+  Solver  : src/compressible_solver.py (pseudo-spectral RK4)
+  IC      : make_acoustic_ic — inviscid isentropic (Re->inf) eigenvector
+  Method  : two-point estimate sigma = log(A0/A_T) / T_final
+  Reference: exact_acoustic_decay_rate — cubic dispersion polynomial eigenvalue
+
+Grid-convergence study result (Re=200, Ma=0.3, mode=1, CFL varied)
+---------------------------------------------------------------------
+  N=64   CFL=0.40   sigma_meas=0.18591950   rel_err=2.714e-03
+  N=64   CFL=0.20   sigma_meas=0.18591950   rel_err=2.714e-03
+  N=64   CFL=0.10   sigma_meas=0.18591950   rel_err=2.714e-03
+  N=128  CFL=0.40   sigma_meas=0.18591950   rel_err=2.714e-03
+  N=128  CFL=0.20   sigma_meas=0.18591950   rel_err=2.714e-03
+  N=128  CFL=0.10   sigma_meas=0.18591950   rel_err=2.714e-03
+  N=256  CFL=0.40   sigma_meas=0.18591950   rel_err=2.714e-03
+  N=256  CFL=0.20   sigma_meas=0.18591950   rel_err=2.714e-03
+  N=256  CFL=0.10   sigma_meas=0.18591950   rel_err=2.714e-03
+  N=512  CFL=0.40   sigma_meas=0.18591951   rel_err=2.714e-03
+  N=512  CFL=0.20   sigma_meas=0.18591951   rel_err=2.714e-03
+  N=512  CFL=0.10   sigma_meas=0.18591951   rel_err=2.714e-03
+
+  sigma_exact = 0.18642549   (from cubic dispersion eigenvalue)
+  Convergence order: 0.00 at every N and CFL doubling.
+
+Diagnosis
+---------
+The isentropic IC uses the Re->inf eigenvector.  At finite Re the exact
+right-going eigenvector differs by O(1/Re), causing a backward-mode projection
+of magnitude |c_backward|/|c_forward| ~ 1.83e-3 for Re=200.  Both acoustic
+modes have exactly the same real part of their eigenvalue (same decay rate
+sigma), so the beat between them persists indefinitely.  The velocity amplitude
+is not a pure exponential but an exponential multiplied by a sinusoid at
+frequency 2*k/Ma.  A two-point estimate at fixed times samples two arbitrary
+phases of this beat and carries a systematic bias of O(1/Re).
+
+Pure-eigenmode + multipoint LS fit result (same Re=200, Ma=0.3)
+----------------------------------------------------------------
+  N=64   rel_err=5.59e-06
+  N=128  rel_err=2.42e-06
+  N=256  rel_err=6.98e-07
+  Convergence order ~1.8 (solver truncation now dominates, not measurement bias)
+
+Conclusion
+----------
+The solver is correct.  The 2.714e-3 error was entirely a measurement artifact.
+Fix applied: validate_acoustic_decay now uses make_eigenmode_ic (exact finite-Re
+eigenvector) and a 40-point least-squares exponential fit.  Tolerance 1e-4 is
+met with margin ~18x.  No tolerance change was made.

@@ -1,0 +1,57 @@
+DEGENERATE-ROW ROBUSTNESS - MLP compressible experiments
+Test rows with ||Y|| < 0.001 excluded in the second column; training unchanged.
+Gap = geometric mean of per-seed ratios naive/similarity, 95% CI Student t on log-gaps (df=4).
+
+Degenerate test rows per seed (scale sweep test set, of 600; config sweep test set at m=1/2/4/8):
+  seed 0: scale 4   config 4/4/0/0
+  seed 1: scale 0   config 0/0/0/0
+  seed 2: scale 0   config 0/0/0/0
+  seed 3: scale 10   config 10/8/6/6
+  seed 4: scale 0   config 0/0/0/0
+
+Scale sweep, naive-log vs similarity
+  level                    all rows        non-degenerate rows
+  1          4.17x [3.32, 5.24]       3.99x [2.99, 5.34]
+  2          0.97x [0.69, 1.36]       0.98x [0.70, 1.36]
+  3          1.10x [1.02, 1.19]       1.09x [0.99, 1.20]
+  5          1.00x [0.70, 1.42]       0.99x [0.71, 1.38]
+
+Scale sweep, naive-mix vs similarity
+  level                    all rows        non-degenerate rows
+  1          4.65x [3.85, 5.62]       4.43x [3.48, 5.63]
+  2          2.19x [1.41, 3.40]       2.24x [1.47, 3.41]
+  3          2.41x [1.44, 4.04]       2.45x [1.50, 4.02]
+  5          2.25x [1.30, 3.87]       2.27x [1.38, 3.72]
+
+Scale sweep, naive-mu vs similarity
+  level                    all rows        non-degenerate rows
+  1          5.40x [4.41, 6.63]       5.07x [3.73, 6.88]
+  2          2.86x [2.12, 3.86]       2.80x [2.02, 3.90]
+  3          2.90x [2.07, 4.06]       2.86x [2.07, 3.96]
+  5          2.05x [1.39, 3.01]       2.03x [1.37, 3.01]
+
+Scale sweep, naive-raw vs similarity
+  level                    all rows        non-degenerate rows
+  1          5.91x [4.96, 7.05]       5.49x [4.07, 7.42]
+  2          3.09x [2.24, 4.28]       3.05x [2.14, 4.34]
+  3          3.19x [2.27, 4.48]       3.14x [2.17, 4.54]
+  5          2.10x [1.33, 3.31]       2.12x [1.38, 3.25]
+
+Configuration sweep, naive-log vs similarity
+  level                    all rows        non-degenerate rows
+  1          1.18x [0.96, 1.43]       1.14x [0.99, 1.31]
+  2          0.95x [0.83, 1.08]       0.97x [0.89, 1.06]
+  4          0.98x [0.93, 1.04]       0.99x [0.94, 1.04]
+  8          0.97x [0.86, 1.09]       0.98x [0.87, 1.10]
+
+  pooled k>=2 naive-log (all rows): 1.021x
+  pooled k>=2 naive-log (non-degenerate): 1.018x
+  pooled k>=2 naive-mix (all rows): 2.280x
+  pooled k>=2 naive-mix (non-degenerate): 2.318x
+  pooled k>=2 naive-mu (all rows): 2.570x
+  pooled k>=2 naive-mu (non-degenerate): 2.536x
+  pooled k>=2 naive-raw (all rows): 2.744x
+  pooled k>=2 naive-raw (non-degenerate): 2.725x
+
+versions: {'python': '3.13.16', 'numpy': '2.5.3', 'scipy': '1.18.1', 'sklearn': '1.9.1'}
+runtime: 1828s
