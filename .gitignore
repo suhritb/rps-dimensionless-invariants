@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+*.npz
+/fig*.pdf
+/fig*.png
+.DS_Store
+
+# rerun outputs written to the top level of results/ (curated copies live in results/*/)
+/results/*.txt
+/results/*.json
+/results/*.png
